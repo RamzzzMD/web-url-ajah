@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>URL Shortener By Shikaku Iyayn Ajah</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="https://raw.githubusercontent.com/RamzzzMD/tes-aja-lah/refs/heads/main/ChatGPT%20Image%20Feb%2022%2C%202026%2C%2008_05_13%20PM.png"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+      (function () {
+        try {
+          const savedTheme = localStorage.getItem("theme") || "light";
+          if (savedTheme === "dark") {
+            document.documentElement.classList.add("dark");
+          } else {
+            document.documentElement.classList.remove("dark");
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              heading: ['"IBM Plex Mono"', "monospace"],
+              body: ['"IBM Plex Mono"', "monospace"],
+            },
+            colors: {
+              blackish: "#333",
+              whitish: "#f2f7f5",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body
+    class="font-body bg-whitish text-blackish min-h-screen flex items-center justify-center p-4 light-mode"
+  >
+    <button id="themeToggle" class="theme-toggle-btn">
+      <svg
+        id="theme-toggle-light-icon"
+        class="w-5 h-5 text-black"
+        fill="currentColor"
+        viewBox="0 0 20 20"
+      >
+        <path
+          d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+        ></path>
+      </svg>
+      <svg
+        id="theme-toggle-dark-icon"
+        class="w-5 h-5 text-black hidden"
+        fill="currentColor"
+        viewBox="0 0 20 20"
+      >
+        <path
+          d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"
+        ></path>
+      </svg>
+    </button>
+
+    <div id="loadingOverlay">
+      <div class="loading-content">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Shortening URL...</div>
+        <div class="loading-subtext">Please wait a moment</div>
+      </div>
+    </div>
+
+    <div
+      class="w-full max-w-md border-2 border-blackish p-8 raised-shadow relative"
+    >
+      <h1
+        class="text-3xl font-extrabold text-center mb-6 font-heading flex items-center justify-center gap-3"
+      >
+        <span>🔗</span> URL Shortener <span>🔗</span>
+      </h1>
+
+      <div
+        id="errorNotification"
+        class="hidden mb-4 border-2 border-red-500 bg-red-50 dark:bg-red-900/30 p-4 text-red-600 dark:text-red-400 text-center font-bold shadow-lg relative"
+      >
+        <div class="flex items-center justify-center gap-2">
+          <span class="text-xl">⚠️</span>
+          <p id="errorMessage" class="text-sm">
+            Invalid URL format. Please check and try again.
+          </p>
+          <button
+            id="closeErrorBtn"
+            class="absolute top-1 right-2 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 text-xl font-bold"
+          >
+            &times;
+          </button>
+        </div>
+      </div>
+
+      <form id="shortenForm" action="/shorten" method="POST" class="space-y-8">
+        <div>
+          <label class="block mb-2 text-sm font-medium">Enter long URL:</label>
+          <input
+            required
+            type="url"
+            name="url"
+            id="urlInput"
+            placeholder="https://example.com/very-long-page-url"
+            class="block w-full text-md"
+          />
+          <p id="urlHelpText" class="text-xs mt-1 opacity-70">
+            Example: https://github.com/username/repository
+          </p>
+          <p
+            id="spaceWarning"
+            class="text-xs mt-1 text-amber-600 dark:text-amber-400 hidden"
+          >
+            ⚠️ URL cannot start with spaces
+          </p>
+        </div>
+
+        <div>
+          <label class="block mb-2 text-sm font-medium">
+            Custom short name <span class="badge">optional</span>:
+          </label>
+          <input
+            type="text"
+            name="custom"
+            maxlength="32"
+            pattern="^[a-zA-Z0-9\-_]+$"
+            placeholder="e.g., custom123"
+            class="block w-full text-md"
+          />
+          <p class="text-xs mt-2 opacity-70">
+            Only letters, numbers, dash or underscore (max 32 characters).
+          </p>
+        </div>
+
+        <div class="flex justify-center pt-4">
+          <button type="submit" id="submitBtn" class="shorten-btn">
+            Shorten URL
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

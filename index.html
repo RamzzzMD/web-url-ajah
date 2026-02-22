@@ -1,156 +1,98 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>URL Shortener By Shikaku Iyayn Ajah</title>
-    <link
-      rel="icon"
-      type="image/x-icon"
-      href="https://raw.githubusercontent.com/RamzzzMD/tes-aja-lah/refs/heads/main/ChatGPT%20Image%20Feb%2022%2C%202026%2C%2008_05_13%20PM.png"
-    />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload File GH</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/x-icon" href="https://i.pinimg.com/736x/0d/71/2a/0d712a0b6805c0b44386339048bdfce5.jpg?format=png&name=900x900">
+    <style>
+        body {
+            background-image: linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        .card-glow {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                        0 4px 6px -2px rgba(0, 0, 0, 0.05),
+                        0 0 30px rgba(124, 58, 237, 0.6);
+            transition: all 0.3s ease-in-out;
+        }
+        .card-glow:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 20px -5px rgba(0, 0, 0, 0.1),
+                        0 6px 8px -3px rgba(0, 0, 0, 0.08),
+                        0 0 40px rgba(167, 139, 250, 0.8);
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-4">
+    <p align="center" class="mb-8">
+        <img src="https://media.tenor.com/yWaLIc5J9WgAAAAj/momoi.gif"
+             class="rounded-lg shadow-lg max-w-full h-auto"
+             style="max-width: 250px;"
+             alt="Animated GIF">
+    </p>
 
-    <script>
-      (function () {
-        try {
-          const savedTheme = localStorage.getItem("theme") || "light";
-          if (savedTheme === "dark") {
-            document.documentElement.classList.add("dark");
-          } else {
-            document.documentElement.classList.remove("dark");
-          }
-        } catch (e) {}
-      })();
-    </script>
+    <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md card-glow transform hover:scale-105 transition duration-300">
+        <h1 class="text-3xl font-extrabold text-center mb-6 text-gray-800">Upload File ke GitHub</h1>
 
-    <script>
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            fontFamily: {
-              heading: ['"IBM Plex Mono"', "monospace"],
-              body: ['"IBM Plex Mono"', "monospace"],
-            },
-            colors: {
-              blackish: "#333",
-              whitish: "#f2f7f5",
-            },
-          },
-        },
-      };
-    </script>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body
-    class="font-body bg-whitish text-blackish min-h-screen flex items-center justify-center p-4 light-mode"
-  >
-    <button id="themeToggle" class="theme-toggle-btn">
-      <svg
-        id="theme-toggle-light-icon"
-        class="w-5 h-5 text-black"
-        fill="currentColor"
-        viewBox="0 0 20 20"
-      >
-        <path
-          d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
-        ></path>
-      </svg>
-      <svg
-        id="theme-toggle-dark-icon"
-        class="w-5 h-5 text-black hidden"
-        fill="currentColor"
-        viewBox="0 0 20 20"
-      >
-        <path
-          d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"
-        ></path>
-      </svg>
-    </button>
-
-    <div id="loadingOverlay">
-      <div class="loading-content">
-        <div class="loading-spinner"></div>
-        <div class="loading-text">Shortening URL...</div>
-        <div class="loading-subtext">Please wait a moment</div>
-      </div>
+        <form id="uploadForm" action="/upload" method="post" encType="multipart/form-data" class="space-y-6">
+            <label class="block">
+                <span class="sr-only">Choose file</span>
+                <input type="file" name="file" required
+                    class="block w-full text-sm text-gray-700
+                        file:mr-4 file:py-2 file:px-4
+                        file:rounded-full file:border-0
+                        file:text-sm file:font-semibold
+                        file:bg-indigo-600 file:text-white
+                        hover:file:bg-indigo-700
+                        cursor-pointer transition duration-200 ease-in-out
+                "/>
+            </label>
+            
+            <div class="flex justify-center items-center space-x-4">
+                <button type="submit" id="uploadButton"
+                    class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700
+                        text-white font-bold py-3 px-8 rounded-full shadow-lg
+                        transform hover:scale-105 transition duration-300 ease-in-out
+                        focus:outline-none focus:ring-4 focus:ring-purple-300">
+                    Upload File
+                </button>
+                <div id="loadingIndicator" class="hidden">
+                    <svg class="animate-spin h-7 w-7 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                </div>
+            </div>
+        </form>
     </div>
 
-    <div
-      class="w-full max-w-md border-2 border-blackish p-8 raised-shadow relative"
-    >
-      <h1
-        class="text-3xl font-extrabold text-center mb-6 font-heading flex items-center justify-center gap-3"
-      >
-        <span>🔗</span> URL Shortener <span>🔗</span>
-      </h1>
+    <p align="center" class="mt-8 text-white text-lg font-medium">
+        Source code:
+    </p>
+    <p align="center" class="mt-2">
+        <a href="https://github.com/iyayn-ajah/web-uploadfile-to-github" target="_blank" rel="noopener noreferrer">
+            <img title="Author"
+                src="https://img.shields.io/badge/GITHUB-gray.svg?style=for-the-badge&logo=github"
+                alt="GitHub Repository">
+        </a>
+    </p>
+    <center class="mt-8">
+        <audio autoplay controls src="https://files.catbox.moe/ar2c1c.mp3" class="rounded-lg shadow-md"></audio>
+    </center>
 
-      <div
-        id="errorNotification"
-        class="hidden mb-4 border-2 border-red-500 bg-red-50 dark:bg-red-900/30 p-4 text-red-600 dark:text-red-400 text-center font-bold shadow-lg relative"
-      >
-        <div class="flex items-center justify-center gap-2">
-          <span class="text-xl">⚠️</span>
-          <p id="errorMessage" class="text-sm">
-            Invalid URL format. Please check and try again.
-          </p>
-          <button
-            id="closeErrorBtn"
-            class="absolute top-1 right-2 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 text-xl font-bold"
-          >
-            &times;
-          </button>
-        </div>
-      </div>
+    <script>
+        const uploadForm = document.getElementById('uploadForm');
+        const uploadButton = document.getElementById('uploadButton');
+        const loadingIndicator = document.getElementById('loadingIndicator');
 
-      <form id="shortenForm" action="/shorten" method="POST" class="space-y-8">
-        <div>
-          <label class="block mb-2 text-sm font-medium">Enter long URL:</label>
-          <input
-            required
-            type="url"
-            name="url"
-            id="urlInput"
-            placeholder="https://example.com/very-long-page-url"
-            class="block w-full text-md"
-          />
-          <p id="urlHelpText" class="text-xs mt-1 opacity-70">
-            Example: https://github.com/username/repository
-          </p>
-          <p
-            id="spaceWarning"
-            class="text-xs mt-1 text-amber-600 dark:text-amber-400 hidden"
-          >
-            ⚠️ URL cannot start with spaces
-          </p>
-        </div>
-
-        <div>
-          <label class="block mb-2 text-sm font-medium">
-            Custom short name <span class="badge">optional</span>:
-          </label>
-          <input
-            type="text"
-            name="custom"
-            maxlength="32"
-            pattern="^[a-zA-Z0-9\-_]+$"
-            placeholder="e.g., custom123"
-            class="block w-full text-md"
-          />
-          <p class="text-xs mt-2 opacity-70">
-            Only letters, numbers, dash or underscore (max 32 characters).
-          </p>
-        </div>
-
-        <div class="flex justify-center pt-4">
-          <button type="submit" id="submitBtn" class="shorten-btn">
-            Shorten URL
-          </button>
-        </div>
-      </form>
-    </div>
-
-    <script src="script.js"></script>
-  </body>
+        uploadForm.addEventListener('submit', () => {
+            uploadButton.disabled = true;
+            uploadButton.classList.add('opacity-50', 'cursor-not-allowed');
+            loadingIndicator.classList.remove('hidden');
+        });
+    </script>
+</body>
 </html>

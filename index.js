@@ -12,12 +12,7 @@ require("dotenv").config(); // kalau pakai .env
 const app = express();
 const port = 3000;
 
-const a = "g";
-const b = "h";
-const c = "p";
-const to = "_QZmTE2v904dYv8v2"; // Setelah ghp
-const ken = "yi5J7Avw7FZGob0nNMJY"; // tengah2 token
-const githubToken = `${a}${b}${c}${to}${ken}`;
+const githubToken = process.env.GITHUB_TOKEN; // pakai env
 const owner = process.env.GITHUB_OWNER; // username
 const repo = process.env.GITHUB_REPO; // repo name
 const branch = process.env.GITHUB_BRANCH || "main";
